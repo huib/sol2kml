@@ -601,9 +601,13 @@ VXTY = VXT0 + ( VXT1 - VXT0 )  x ( 1/2 + cos ( DUREE_SECONDES_NORMALISEE / 2PI )
 		// normalisation en temps
 		$tn= (float)($t - $t0) / (float)($t1 - $t0);  // pour avoir t dans l'intervalle [0..1]
         // $tn= (float) $t / (float)($t1 - $t0) - $t0;
-		return ($composante0 + 0.5 * ($composante1 - $composante0) * (1.0 + cos($tn / (2.0 * M_PI))));
+		return $this->weight(1-$tn)*$composante0 + $this->weight($tn)*$composante1;
 	}
-
+	
+	private function weight($dtr)
+	{
+		return 3*$dtr*$dtr - 2*$dtr*$dtr*$dtr;
+	}
 
 
 	//---------------------------------------
